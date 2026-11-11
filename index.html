@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Храм — Проект</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e67e22;
+            --link: #2980b9;
+            --link-hover: #c0392b;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-secondary: #7f8c8d;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--card-bg);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        h1 { margin: 0; font-size: 2.5rem; letter-spacing: -0.5px; }
+        .subtitle { color: var(--text-secondary); margin-top: 0.5rem; font-size: 1.1rem; }
+        .author { color: var(--accent); font-weight: bold; margin-top: 0.5rem; font-size: 1.1rem; }
+        
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            border-left: 5px solid var(--accent);
+        }
+        .info-card h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .info-card .content {
+            white-space: pre-wrap;
+            font-size: 1.05rem;
+            color: #34495e;
+            word-wrap: break-word;
+        }
+        
+        /* ✨ Стили для кликабельных ссылок */
+        .info-card .content a {
+            color: var(--link);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed var(--link);
+            transition: all 0.2s ease;
+        }
+        .info-card .content a:hover {
+            color: var(--link-hover);
+            border-bottom-color: var(--link-hover);
+            border-bottom-style: solid;
+        }
+        
+        .loading-text { color: var(--text-secondary); font-style: italic; }
+        .error-text { color: #e74c3c; font-style: italic; }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .tab-btn {
+            padding: 0.75rem 2rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .media-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        .media-card img, .media-card video {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            background-color: #eee;
+        }
+        .media-info { padding: 1.2rem; }
+        .media-info h3 { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
+        .media-info p { margin: 0; color: var(--text-secondary); font-size: 0.9rem; }
+        
+        .hidden { display: none !important; }
+        
+        footer {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .gallery { grid-template-columns: 1fr; }
+            .info-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Храм</h1>
+    <div class="subtitle">Пробная версия страницы проекта</div>
+    <div class="author">Автор конструкции: Юрков Давид</div>
+</header>
+
+<div class="container">
+    <div class="info-card">
+        <h2>📜 Описание памятника и авторов</h2>
+        <div id="monument-description" class="content">
+            <span class="loading-text">Загрузка описания...</span>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('photos', this)">📸 Фотографии</button>
+        <button class="tab-btn" onclick="switchTab('videos', this)">🎥 Видео</button>
+    </div>
+
+    <div id="photos" class="gallery">
+        <div class="media-card">
+            <img src="https://via.placeholder.com/400x300/2c3e50/ffffff?text=Фото+1" alt="Общий вид">
+            <div class="media-info">
+                <h3>Общий вид</h3>
+                <p>Фасадный ракурс, дневное освещение.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="videos" class="gallery hidden">
+        <div class="media-card">
+            <video controls poster="https://via.placeholder.com/400x300/34495e/ffffff?text=Видео">
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
+            <div class="media-info">
+                <h3>Видеообзор</h3>
+                <p>Краткий обзор объекта.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Юрков Давид. Все права защищены.</p>
+</footer>
+
+<script>
+    function switchTab(tabName, btnElement) {
+        document.getElementById('photos').classList.add('hidden');
+        document.getElementById('videos').classList.add('hidden');
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabName).classList.remove('hidden');
+        btnElement.classList.add('active');
+    }
+
+    // ✨ Функция преобразования разметки [текст](ссылка) в кликабельные <a>
+    function formatText(rawText) {
+        // 1. Экранируем HTML-символы для безопасности
+        let safe = rawText
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+        
+        // 2. Ищем паттерн [название](https://...) и превращаем в ссылку
+        //    Флаг g — искать все вхождения во всём тексте
+        safe = safe.replace(
+            /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+            '<a href="$2" target="_blank" rel="noopener noreferrer">$1 ↗</a>'
+        );
+        
+        return safe;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const descriptionElement = document.getElementById('monument-description');
+        
+        fetch('ops/description.txt')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return response.text();
+            })
+            .then(text => {
+                descriptionElement.innerHTML = formatText(text);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                descriptionElement.innerHTML = `
+                    <span class="error-text">
+                        ⚠️ Не удалось загрузить описание.<br>
+                        Проверьте наличие файла <strong>ops/description.txt</strong>.
+                    </span>
+                `;
+            });
+    });
+</script>
+
+</body>
+</html>

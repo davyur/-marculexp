@@ -1,0 +1,27 @@
+
+[
+  {
+    "id": "temple-1",
+    "name": "Храм Преображения",
+    "short_desc": "Деревянный храм в традиционном стиле, 2024 г.",
+    "preview": "temples/temple-1/img/preview.jpg",
+    "photos": [
+      {"src": "temples/temple-1/img/photo1.jpg", "title": "Фасад", "desc": "Главный вход"},
+      {"src": "temples/temple-1/img/photo2.jpg", "title": "Интерьер", "desc": "Вид изнутри"}
+    ],
+    "videos": [
+      {"src": "temples/temple-1/video/overview.mp4", "title": "Облёт", "poster": "temples/temple-1/img/preview.jpg"}
+    ]
+  },
+  {
+    "id": "temple-2",
+    "name": "Часовня Успения",
+    "short_desc": "Каменная часовня XIX века, реставрация 2023 г.",
+    "preview": "temples/temple-2/img/preview.jpg",
+    "photos": [
+      {"src": "temples/temple-2/img/photo1.jpg", "title": "Общий вид", "desc": "Северный фасад"}
+    ],
+    "videos": []
+  }
+]
+--
