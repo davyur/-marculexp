@@ -77,9 +77,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 /* ============================================================
    КОНФИГУРАЦИЯ GITHUB
    ============================================================ */
-const GITHUB_USER = 'davyur'; // Замените на ваш логин GitHub
-const GITHUB_REPO = 'sait';   // Замените на имя вашего репозитория
-const GITHUB_BRANCH = 'main'; // Или 'master'
+const GITHUB_USER = 'davyur';          // Ваш логин GitHub
+const GITHUB_REPO = 'marculexp';       // Название репозитория
+const GITHUB_BRANCH = 'main';          // Если не работает — попробуйте 'master'
 
 const BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'webp', 'avif'];
@@ -91,14 +91,14 @@ const MAX_MEDIA = 20;
    ============================================================ */
 async function fetchText(path) {
     try {
-        const res = await fetch(`${BASE_URL}/${path}`);
+        const res = await fetch(`${BASE_URL}/${path}?t=${Date.now()}`);
         return res.ok ? await res.text() : null;
     } catch { return null; }
 }
 
 async function fileExists(path) {
     try {
-        const res = await fetch(`${BASE_URL}/${path}`, { method: 'GET' });
+        const res = await fetch(`${BASE_URL}/${path}?t=${Date.now()}`, { method: 'GET' });
         return res.ok && res.status === 200;
     } catch { return false; }
 }
@@ -117,12 +117,11 @@ function showError(msg) {
    ПАРСИНГ tab.txt
    Формат: Название-(Автор)-любой_текст
    Пример: Храм-(Юрков Давид)-ivanov
-   Мы берем только Название и Автора, игнорируя часть после второго дефиса.
    ============================================================ */
 async function loadTabData() {
     const text = await fetchText('tab.txt');
     if (text === null) {
-        showError(`❌ Файл <code>tab.txt</code> не найден.<br>Убедитесь, что он лежит в корне репозитория.`);
+        showError(`❌ Файл <code>tab.txt</code> не найден.<br>Убедитесь, что он лежит в корне репозитория <strong>${GITHUB_REPO}</strong>.`);
         return [];
     }
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
@@ -132,14 +131,12 @@ async function loadTabData() {
         const line = lines[i];
         const id = String(i + 1); 
         
-        // Ищем "Название-(Автор)"
         const match = line.match(/^(.+?)\s*-\((.+?)\)/);
         if (match) {
             const title = match[1].trim();
             const author = match[2].trim();
             models.push({ id, title, author });
         } else {
-            // Если формат не совпал, берем всю строку как название, автора нет
             models.push({ id, title: line, author: '' });
         }
     }
@@ -280,7 +277,6 @@ async function loadModel(config) {
     );
     dropdownEl.value = config.id;
 
-    // Загружаем описание из obr/{id}.txt и медиа из image/{id}/
     const [description, media] = await Promise.all([
         fetchText(`obr/${config.id}.txt`),
         loadMedia(config.id)
@@ -322,7 +318,6 @@ async function loadModel(config) {
         dropdownEl.classList.toggle('show', !isTabsMode);
     };
     
-    // Загружаем первую модель при старте
     loadModel(modelsData[0]);
 })();
 </script>
